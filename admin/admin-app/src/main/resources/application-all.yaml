@@ -1,0 +1,40 @@
+server:
+  port: 8080
+#数据库配置
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  freemarker:
+    checkTemplateLocation: true
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    open-in-view: true
+  datasource:
+    url: jdbc:mysql://192.168.0.158:3306/t_all?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      connection-timeout: 10000
+      max-lifetime: 180000
+      connection-test-query: select 1
+      minimum-idle: 180000
+      maximum-pool-size: 200
+  jackson:
+    default-property-inclusion: use_defaults
+
+wx:
+  pay:
+    appId: aaaa #微信公众号或者小程序等的appid
+    mchId: ddd  #微信支付商户号
+    mchKey: ssss #微信支付商户密钥
+    subAppId: ssss #服务商模式下的子商户公众账号ID
+    subMchId: dddd #服务商模式下的子商户号
+    keyPath: ssss #p12证书的位置，可以指定绝对路径，也可以指定类路径（以classpath:开头）
+
+
+cyyaw:
+  file-path: 'F:/aaasss/'

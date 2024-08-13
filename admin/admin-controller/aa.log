@@ -1,0 +1,38 @@
+
+
+timedatectl set-timezone Asia/Shanghai
+
+
+
+hostnamectl set-hostname master
+
+
+
+
+
+192.168.118.4 master
+192.168.118.5 node1
+192.168.118.6 node2
+192.168.118.7 node3
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
