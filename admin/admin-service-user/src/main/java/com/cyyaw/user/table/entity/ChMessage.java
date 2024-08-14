@@ -11,9 +11,9 @@ import java.util.Date;
 
 @Data
 @Entity
-@Table(name = "u_friends_message")
-@org.hibernate.annotations.Table(appliesTo = "u_friends_message", comment = "好友消息表")
-public class UFriendsMessage implements BaseEntity<Integer>,  Serializable {
+@Table(name = "ch_message")
+@org.hibernate.annotations.Table(appliesTo = "ch_message", comment = "消息表")
+public class ChMessage implements BaseEntity<Integer>,  Serializable {
 
     private static final long serialVersionUID = 13663012723562985L;
 
@@ -39,23 +39,20 @@ public class UFriendsMessage implements BaseEntity<Integer>,  Serializable {
 
     // =================================================================================
 
+    @Basic
+    @Column(name = "user_id", columnDefinition = "varchar(32) not null COMMENT 'u_user用户表(当前用户)id'")
+    private String userId;
 
     @Basic
-    @Column(name = "userid", columnDefinition = "varchar(32) not null COMMENT 'u_user用户表(当前用户)id'")
-    private String userid;
+    @Column(name = "room_id", columnDefinition = "varchar(32) not null COMMENT '房间ID'")
+    private String roomId;
 
     @Basic
-    @Column(name = "to_user_id", columnDefinition = "varchar(32) not null COMMENT 'u_user用户表(好友)id'")
-    private String toUserId;
-
-
-    @Basic
-    @Column(name = "type",length = 10, columnDefinition = "int  not null COMMENT '消息类型{0:文字,1:图片,2:视频}'")
+    @Column(name = "type", columnDefinition = "int  not null COMMENT '消息类型{0:文字,1:图片,2:视频}'")
     private Integer type;
 
     @Basic
     @Column(name = "content", columnDefinition = "text COMMENT '消息内容'")
     private String content;
-
 
 }

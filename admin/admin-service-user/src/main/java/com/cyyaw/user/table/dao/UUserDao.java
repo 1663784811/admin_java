@@ -9,17 +9,8 @@ import java.util.List;
 
 public interface UUserDao extends BaseDao<UUser, Integer> {
 
-    /**
-     * 好友
-     */
-    @Query("select m from UUser m where m.tid in ( select t.toUserId from UFriendsUser t where t.userId = ?1 ) and m.appId=?2")
-    List<UUser> findMyFriendsByUserid(String userid, String appId);
-
     @Query("select m from UUser m where m.type =?1")
     List<UUser> findByType(Integer type);
-
-    @Query("select m from UUser m where m.tid in ( select t.userId from UGroupUser t where t.groupId = ?1)")
-    List<UUser> findByGroup(String userid);
 
     @Query("select m from UUser m where m.account = ?1")
     List<UUser> findByAccount(String account);

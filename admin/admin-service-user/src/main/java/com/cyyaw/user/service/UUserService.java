@@ -2,7 +2,7 @@ package com.cyyaw.user.service;
 
 
 import com.cyyaw.jpa.BaseTableService;
-import com.cyyaw.user.table.entity.UFriendsUser;
+import com.cyyaw.user.table.entity.ChFriendsUser;
 import com.cyyaw.user.table.entity.UUser;
 
 import java.util.List;
@@ -24,7 +24,7 @@ public interface UUserService extends BaseTableService<UUser, Integer> {
 
 
 
-    List<UFriendsUser> myFriends(String uid, String appId);
+    List<ChFriendsUser> myFriends(String uid, String appId);
 
 
     void delFriends(String userId, String targetId);

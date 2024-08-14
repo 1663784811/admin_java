@@ -10,7 +10,6 @@ import com.cyyaw.user.table.entity.TAdmin;
 import com.cyyaw.user.table.entity.TPower;
 import com.cyyaw.user.utils.LoginInfo;
 import com.cyyaw.user.utils.MenuUtils;
-import com.cyyaw.user.utils.entity.MenuEntity;
 import com.cyyaw.user.utils.entity.TreeEntity;
 import com.cyyaw.util.tools.BaseResult;
 import io.swagger.annotations.Api;
@@ -20,9 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Slf4j
 @Api(tags = "企业-管理员信息")

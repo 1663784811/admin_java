@@ -8,16 +8,14 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
-
 
 @Data
 @Entity
-@Table(name = "u_friends_user")
-@org.hibernate.annotations.Table(appliesTo = "u_friends_user", comment = "好友关联表")
-public class UFriendsUser implements BaseEntity<Integer>, Serializable {
+@Table(name = "ch_room_user")
+@org.hibernate.annotations.Table(appliesTo = "ch_room_user", comment = "房间用户")
+public class ChRoomUser implements BaseEntity<Integer>,  Serializable {
 
-    private static final long serialVersionUID = 1366301723582985L;
+    private static final long serialVersionUID = 13663042723582985L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -42,21 +40,11 @@ public class UFriendsUser implements BaseEntity<Integer>, Serializable {
     // =================================================================================
 
     @Basic
-    @Column(name = "user_id", columnDefinition = "varchar(32) not null COMMENT 'u_user用户表(当前用户)id'")
+    @Column(name = "user_id", columnDefinition = "varchar(32) not null COMMENT 'u_user用户表id'")
     private String userId;
 
     @Basic
-    @Column(name = "to_user_id", columnDefinition = "varchar(32) not null COMMENT 'u_user用户表(好友)id'")
-    private String toUserId;
-
-
-    @Basic
-    @Column(name = "friends_group_id", columnDefinition = "varchar(32) COMMENT 'u_friends_group好友分组表id'")
-    private String friendsGroupId;
-
-
-    @Transient
-    private UUser toUser;
-
+    @Column(name = "room_id", columnDefinition = "varchar(32) not null COMMENT '房间ID'")
+    private String roomId;
 
 }

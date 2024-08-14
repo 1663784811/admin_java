@@ -58,6 +58,7 @@ public class RabbitMqMqtt {
         arguments.put("x-message-ttl", 1000 * 10);
         return arguments;
     }
+
     /**
      * mqtt
      */
@@ -75,12 +76,12 @@ public class RabbitMqMqtt {
 
     @Bean
     public Binding bindingMqtt() {
-        return BindingBuilder.bind(mqttQueue()).to(mqttExchange()).with("mqtt_service.#").noargs();
+        return BindingBuilder.bind(mqttQueue()).to(mqttServerExchange()).with(MQTT_QUEUE + ".#").noargs();
     }
 
     @Bean
     public Binding bindingMqttToMqttServer() {
-        return BindingBuilder.bind(mqttServerExchange()).to(mqttExchange()).with("#").noargs();
+        return BindingBuilder.bind(mqttServerExchange()).to(mqttExchange()).with(MQTT_QUEUE + ".#").noargs();
     }
 
 }

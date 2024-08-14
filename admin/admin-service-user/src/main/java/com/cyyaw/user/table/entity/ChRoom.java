@@ -11,11 +11,11 @@ import java.util.Date;
 
 @Data
 @Entity
-@Table(name = "u_group_user")
-@org.hibernate.annotations.Table(appliesTo = "u_group_user", comment = "群用户关联表")
-public class UGroupUser implements BaseEntity<Integer>,  Serializable {
+@Table(name = "ch_room")
+@org.hibernate.annotations.Table(appliesTo = "ch_room", comment = "聊天房间")
+public class ChRoom implements BaseEntity<Integer>, Serializable {
 
-    private static final long serialVersionUID = 13663052723582985L;
+    private static final long serialVersionUID = 1366301272356295L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -38,23 +38,8 @@ public class UGroupUser implements BaseEntity<Integer>,  Serializable {
     private String note;
 
     // =================================================================================
-
-
     @Basic
-    @Column(name = "user_id", columnDefinition = "varchar(32) not null COMMENT 'u_user用户表id'")
-    private String userId;
-
-    @Basic
-    @Column(name = "group_id", columnDefinition = "varchar(32) not null COMMENT 'u_groupid表id'")
-    private String groupId;
-
-    @Basic
-    @Column(name = "grade",columnDefinition = "int not null default '0' COMMENT '等级'")
-    private Integer grade;
-
-    @Basic
-    @Column(name = "type",columnDefinition = "int not null default '0' COMMENT '用户类型{0:普通人,1:群主,2:管理员}'")
+    @Column(name = "type", columnDefinition = "int COMMENT '房间类型{0:私聊,1:群聊}'")
     private Integer type;
-
 
 }

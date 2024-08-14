@@ -34,6 +34,9 @@ public class RabbitMqService {
     private EqEquipmentService eqEquipmentService;
 
 
+    /**
+     * 接收消息
+     */
     @RabbitListener(queues = RabbitMqMqtt.MQTT_QUEUE)
     public void listenSimpleQueueMessage(Message message, Channel channel) throws IOException {
         MessageProperties msp = message.getMessageProperties();
@@ -42,18 +45,31 @@ public class RabbitMqService {
         String data = new String(message.getBody());
         System.out.println("spring 消费者接收到消息 ：【" + data + "】");
         String[] strArr = routingKey.split("\\.");
-        if (strArr.length > 0 && strArr[0].equals("mqtt_service")) {
-            if (strArr.length > 1 && strArr[1].equals("chat")) {
-                String to = routingKey.replace("mqtt_service.chat.", "");
-//                chatMsgHandle.handle(to, data);
-            } else if (strArr.length > 1 && strArr[1].equals("webrtc")) {
-                String to = routingKey.replace("mqtt_service.webrtc.", "");
-//                webRtcMsgHandle.handle(to, data);
-            } else {
-                String topic = routingKey.replace("mqtt_service.", "");
-//                mqttService.send(topic, data);
+        // =================================================
+
+        if (strArr.length > 1 && strArr[0].equals("mqtt_service")) {
+
+            if (strArr[1].equals("chat")) {
+                // 聊天消息
+                String roomId = strArr[2];
+                new JSONObject(data);
+                // 保存聊天消息
+
+
+                // 把消息转发给其它人
+
+            } else if (strArr[1].equals("webrtc")) {
+                // webrtc 消息
+
+            } else if (strArr[1].equals("order")) {
+                // 指令
+                String userId = strArr[2];
+
+
             }
         }
+
+        // =================================================
         try {
             channel.basicAck(tag, false);
         } catch (IOException e) {
@@ -61,6 +77,9 @@ public class RabbitMqService {
         }
     }
 
+    /**
+     * 设备事件
+     */
     @RabbitListener(queues = RabbitMqEvent.EVENT_QUEUE)
     public void handleDeviceConnectedEvent(Message message, Channel channel, @Header(AmqpHeaders.DELIVERY_TAG) long tag) throws Exception {
         MessageProperties messageProperties = message.getMessageProperties();
@@ -126,7 +145,9 @@ public class RabbitMqService {
     }
 
 
-    //接收消息
+    /**
+     * 接收消息
+     */
     @RabbitListener(queues = RabbitMqDead.DEAD_QUEUE)
     public void receiveD(Message message, Channel channel, @Header(AmqpHeaders.DELIVERY_TAG) long tag) throws Exception {
         String msg = new String(message.getBody());
@@ -135,6 +156,9 @@ public class RabbitMqService {
     }
 
 
+    /**
+     * 延时队列
+     */
     @RabbitListener(queues = RabbitMqDelay.DELAY_QUEUE)
     public void receiveDelayedQueue(Message message, Channel channel, @Header(AmqpHeaders.DELIVERY_TAG) long tag) throws Exception {
         String msg = new String(message.getBody());
