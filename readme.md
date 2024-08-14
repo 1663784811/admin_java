@@ -62,8 +62,9 @@
         2.服务器主动向设备发送离线消息 ( 没有则不发送, 如果是群消息则取最大100条 )
             服务器发布主题:  chat/用户Id
                 {
+                    userId: '用户ID',
                     roomId: '房间ID',
-                    msgType: 'text',
+                    msgType: 0,
                     data: "消息内容"
                 }
             服务订阅: mqtt_service/order/用户Id
@@ -84,14 +85,14 @@
         {
             userId: '用户ID',
             roomId: '房间ID',
-            msgType: 'text',
+            msgType: 0,
             data: "消息内容"
         }
     设备发布：mqtt_service/chat/房间ID
         {
             userId: '用户ID',
             roomId: '房间ID',
-            msgType: 'text',
+            msgType: 0,
             data: "消息内容"
         }
 ```

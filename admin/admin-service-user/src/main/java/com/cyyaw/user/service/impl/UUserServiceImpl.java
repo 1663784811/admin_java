@@ -68,7 +68,7 @@ public class UUserServiceImpl extends BaseService<UUser, Integer> implements UUs
 
 
     @Override
-    public List<ChFriendsUser> myFriends(String uid, String appId) {
+    public List<ChFriendsUser> myFriends(String uid) {
         List<ChFriendsUser> rest = chFriendsUserDao.findAllByUserid(uid);
         List<String> userIdList = new ArrayList<>();
         for (int i = 0; i < rest.size(); i++) {

@@ -30,7 +30,7 @@ public class FriendsController {
     @GetMapping(value = "/myFriends")
     public BaseResult myFriends(@TokenData LoginInfo loginInfo, @PathVariable String appId) {
         String uid = loginInfo.getId();
-        return BaseResult.ok(userService.myFriends(uid, appId));
+        return BaseResult.ok(userService.myFriends(uid));
     }
 
     @ApiOperation(value = "查询好友", notes = "查询好友")

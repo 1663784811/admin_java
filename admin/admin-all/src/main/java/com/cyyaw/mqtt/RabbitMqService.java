@@ -2,12 +2,16 @@ package com.cyyaw.mqtt;
 
 import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONObject;
+import cn.hutool.json.JSONUtil;
 import com.cyyaw.equipment.service.EqEquipmentService;
 import com.cyyaw.equipment.table.entity.EqEquipment;
 import com.cyyaw.mqtt.rabbit.RabbitMqDead;
 import com.cyyaw.mqtt.rabbit.RabbitMqDelay;
 import com.cyyaw.mqtt.rabbit.RabbitMqEvent;
 import com.cyyaw.mqtt.rabbit.RabbitMqMqtt;
+import com.cyyaw.user.service.*;
+import com.cyyaw.user.table.entity.*;
+import com.cyyaw.util.entity.FriendsEntity;
 import com.rabbitmq.client.Channel;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.AmqpTemplate;
@@ -20,7 +24,9 @@ import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -32,6 +38,22 @@ public class RabbitMqService {
 
     @Autowired
     private EqEquipmentService eqEquipmentService;
+
+    @Autowired
+    private ChRoomService chRoomService;
+
+
+    @Autowired
+    private ChMessageService chMessageService;
+
+    @Autowired
+    private ChRoomUserService chRoomUserService;
+
+    @Autowired
+    private ChFriendsUserService chFriendsUserService;
+
+    @Autowired
+    private UUserService userService;
 
 
     /**
@@ -48,23 +70,67 @@ public class RabbitMqService {
         // =================================================
 
         if (strArr.length > 1 && strArr[0].equals("mqtt_service")) {
-
+            JSONObject msgData = new JSONObject(data);
             if (strArr[1].equals("chat")) {
                 // 聊天消息
-                String roomId = strArr[2];
-                new JSONObject(data);
+                String userId = msgData.getStr("userId");
+                String roomId = msgData.getStr("roomId");
+                String msgType = msgData.getStr("msgType");
+                String contentData = msgData.getStr("data");
                 // 保存聊天消息
-
-
-                // 把消息转发给其它人
-
+                ChRoom chRoom = chRoomService.findByTid(roomId);
+                if (null != chRoom) {
+                    ChMessage msg = new ChMessage();
+                    msg.setUserId(userId);
+                    msg.setRoomId(roomId);
+                    msg.setType(Integer.getInteger(msgType));
+                    msg.setContent(contentData);
+                    ChMessage save = chMessageService.save(msg);
+                    String restStr = new JSONObject(save).toString();
+                    // 把消息转发给其它人
+                    List<ChRoomUser> chRoomUserList = chRoomUserService.findRoomUserByRoomId(roomId);
+                    if (null != chRoomUserList && chRoomUserList.size() > 0) {
+                        for (int i = 0; i < chRoomUserList.size(); i++) {
+                            ChRoomUser chRoomUser = chRoomUserList.get(i);
+                            String uid = chRoomUser.getUserId();
+                            if (!userId.equals(uid)) {
+                                amqpTemplate.convertAndSend(RabbitMqMqtt.MQTT_EXCHANGE, "chat." + uid, restStr);
+                            }
+                        }
+                    }
+                }
             } else if (strArr[1].equals("webrtc")) {
                 // webrtc 消息
 
             } else if (strArr[1].equals("order")) {
                 // 指令
                 String userId = strArr[2];
-
+                String order = msgData.getStr("order");
+                if ("pullMyFriend".equals(order)) {
+                    // 查询用户
+                    List<ChFriendsUser> friendsUserList = userService.myFriends(userId);
+                    JSONArray array = new JSONArray();
+                    for (int i = 0; i < friendsUserList.size(); i++) {
+                        ChFriendsUser friendsUser = friendsUserList.get(i);
+                        FriendsEntity friends = new FriendsEntity();
+                        UUser toUser = friendsUser.getToUser();
+                        friends.setTid(friends.getTid());
+                        friends.setRoomId(friendsUser.getRoomId());
+                        friends.setUserId(toUser.getTid());
+                        friends.setAppId(toUser.getAppId());
+                        friends.setAccount(toUser.getAccount());
+                        friends.setSex(toUser.getSex());
+                        friends.setNickName(toUser.getNickName());
+                        friends.setPhone(toUser.getPhone());
+                        friends.setFace(toUser.getFace());
+                        friends.setIntroduceSign(toUser.getIntroduceSign());
+                        array.add(friends);
+                    }
+                    JSONObject rest = new JSONObject();
+                    rest.set("order", order);
+                    rest.set("data", array);
+                    amqpTemplate.convertAndSend(RabbitMqMqtt.MQTT_EXCHANGE, "order." + userId, rest.toString());
+                }
 
             }
         }
@@ -151,7 +217,7 @@ public class RabbitMqService {
     @RabbitListener(queues = RabbitMqDead.DEAD_QUEUE)
     public void receiveD(Message message, Channel channel, @Header(AmqpHeaders.DELIVERY_TAG) long tag) throws Exception {
         String msg = new String(message.getBody());
-        log.info("【 死信队列 】：{}", new JSONObject(msg));
+        log.info("【 死信队列 】：{}", msg);
         channel.basicAck(tag, false);
     }
 
@@ -162,7 +228,7 @@ public class RabbitMqService {
     @RabbitListener(queues = RabbitMqDelay.DELAY_QUEUE)
     public void receiveDelayedQueue(Message message, Channel channel, @Header(AmqpHeaders.DELIVERY_TAG) long tag) throws Exception {
         String msg = new String(message.getBody());
-        log.info("当前时间：{},收到延时队列的消息：{}", new Date().toString(), msg);
+        log.info("收到延时队列的消息：{}", new Date().toString(), msg);
         channel.basicAck(tag, false);
     }
 

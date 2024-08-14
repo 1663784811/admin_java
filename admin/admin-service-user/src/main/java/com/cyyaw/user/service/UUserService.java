@@ -23,10 +23,10 @@ public interface UUserService extends BaseTableService<UUser, Integer> {
     UUser findByAppIdAndPhone(String appId, String phone);
 
 
-
-    List<ChFriendsUser> myFriends(String uid, String appId);
+    List<ChFriendsUser> myFriends(String userId);
 
 
     void delFriends(String userId, String targetId);
+
 
 }
