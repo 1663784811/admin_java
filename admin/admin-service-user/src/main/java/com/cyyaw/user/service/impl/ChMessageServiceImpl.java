@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 
 
 @Slf4j
@@ -24,5 +25,11 @@ public class ChMessageServiceImpl extends BaseService<ChMessage, Integer> implem
         return chMessageDao;
     }
 
+    @Override
+    public List<ChMessage> unReadMsgList(String userId) {
+        // 查询我的私聊房间
+        // 查询房间内未读消息
+        return chMessageDao.findUnReadMsgByUserId(userId);
+    }
 }
 
