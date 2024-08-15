@@ -67,10 +67,12 @@ public class OrderHandle {
             // 拉取房间
             List<ChRoom> myRoom = chRoomService.findMyRoom(userId);
             JSONObject rest = new JSONObject();
+            rest.set("order", order);
+            rest.set("data", myRoom);
             String restMsg = rest.toString();
             amqpTemplate.convertAndSend(RabbitMqMqtt.MQTT_EXCHANGE, "order." + userId, restMsg);
         } else if ("getMyFriend".equals(order)) {
-            // 拉取房间
+            // 获取用户数据
             List<ChRoom> myRoom = chRoomService.findMyRoom(userId);
             JSONObject rest = new JSONObject();
             String restMsg = rest.toString();

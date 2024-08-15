@@ -9,6 +9,7 @@ import com.cyyaw.user.service.ChRoomUserService;
 import com.cyyaw.user.table.entity.ChMessage;
 import com.cyyaw.user.table.entity.ChRoom;
 import com.cyyaw.user.table.entity.ChRoomUser;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,7 @@ import java.util.List;
 /**
  * 聊天消息处理
  */
-
+@Slf4j
 @Service
 public class ChatHandle {
 
@@ -51,6 +52,7 @@ public class ChatHandle {
                     ChRoomUser chRoomUser = chRoomUserList.get(i);
                     String uid = chRoomUser.getUserId();
                     if (!userId.equals(uid)) {
+                        log.info("【chat回复消息】  {}", restStr);
                         amqpTemplate.convertAndSend(RabbitMqMqtt.MQTT_EXCHANGE, "chat." + uid, restStr);
                     }
                 }

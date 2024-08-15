@@ -51,7 +51,7 @@ public class EventHandle {
         }
         //获取未读消息
         List<ChMessage> messageList = chMessageService.unReadMsgList(userId);
-        if (null != messageList) {
+        if (!messageList.isEmpty()) {
             for (int i = 0; i < messageList.size(); i++) {
                 ChMessage chMessage = messageList.get(i);
                 //  发送消息
