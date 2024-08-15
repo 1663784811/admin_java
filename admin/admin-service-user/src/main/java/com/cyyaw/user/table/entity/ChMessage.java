@@ -13,7 +13,7 @@ import java.util.Date;
 @Entity
 @Table(name = "ch_message")
 @org.hibernate.annotations.Table(appliesTo = "ch_message", comment = "消息表")
-public class ChMessage implements BaseEntity<Integer>,  Serializable {
+public class ChMessage implements BaseEntity<Integer>, Serializable {
 
     private static final long serialVersionUID = 13663012723562985L;
 
@@ -55,4 +55,7 @@ public class ChMessage implements BaseEntity<Integer>,  Serializable {
     @Column(name = "content", columnDefinition = "text COMMENT '消息内容'")
     private String content;
 
+    @Basic
+    @Column(name = "status", columnDefinition = "int default '0' COMMENT '是否已读{0:未读,1:已读}'")
+    private Integer status;
 }

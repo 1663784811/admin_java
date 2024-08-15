@@ -33,4 +33,10 @@ public interface UUserDao extends BaseDao<UUser, Integer> {
 
     @Query("select m from UUser m where m.tid in (:userIdList)")
     List<UUser> findByTidIn(@Param("userIdList") List<String> userIdList);
+
+    /**
+     * 查询房间里的用户
+     */
+    @Query("select m from UUser m where m.tid in ( select t.userId from ChRoomUser t where t.roomId in (:roomIdList) )")
+    List<UUser> findByRoomIn(@Param("roomIdList") List<String> roomIdList);
 }

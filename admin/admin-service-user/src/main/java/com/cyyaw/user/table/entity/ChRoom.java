@@ -8,6 +8,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @Entity
@@ -41,5 +42,15 @@ public class ChRoom implements BaseEntity<Integer>, Serializable {
     @Basic
     @Column(name = "type", columnDefinition = "int COMMENT '房间类型{0:私聊,1:群聊}'")
     private Integer type;
+
+    @Basic
+    @Column(name = "name", columnDefinition = "varchar(255) default '' COMMENT '房间名称'")
+    private String name;
+
+    /**
+     * 用户
+     */
+    @Transient
+    private List<UUser> userList;
 
 }

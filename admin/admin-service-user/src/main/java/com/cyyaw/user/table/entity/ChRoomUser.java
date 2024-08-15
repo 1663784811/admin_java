@@ -15,7 +15,7 @@ import java.util.Date;
 @org.hibernate.annotations.Table(appliesTo = "ch_room_user", comment = "房间用户")
 public class ChRoomUser implements BaseEntity<Integer>,  Serializable {
 
-    private static final long serialVersionUID = 13663042723582985L;
+    private static final long serialVersionUID = 1363042723582985L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
