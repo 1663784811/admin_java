@@ -4,11 +4,11 @@ package com.cyyaw.mqtt.handle;
 import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONObject;
 import com.cyyaw.mqtt.rabbit.RabbitMqMqtt;
+import com.cyyaw.user.service.ChMessageService;
 import com.cyyaw.user.service.ChRoomService;
+import com.cyyaw.user.service.ChRoomUserService;
 import com.cyyaw.user.service.UUserService;
-import com.cyyaw.user.table.entity.ChFriendsUser;
-import com.cyyaw.user.table.entity.ChRoom;
-import com.cyyaw.user.table.entity.UUser;
+import com.cyyaw.user.table.entity.*;
 import com.cyyaw.util.entity.FriendsEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.AmqpTemplate;
@@ -33,6 +33,11 @@ public class OrderHandle {
     @Autowired
     private ChRoomService chRoomService;
 
+    @Autowired
+    private ChMessageService chMessageService;
+
+    @Autowired
+    private ChRoomUserService chRoomUserService;
 
     public void handle(String userId, JSONObject msgData) {
         // 指令
@@ -77,6 +82,26 @@ public class OrderHandle {
             JSONObject rest = new JSONObject();
             String restMsg = rest.toString();
             amqpTemplate.convertAndSend(RabbitMqMqtt.MQTT_EXCHANGE, "order." + userId, restMsg);
+        } else if ("readMsg".equals(order)) {
+            // 用户消息已读
+            String tid = msgData.getStr("tid");
+            ChMessage chMessage = chMessageService.readMsg(tid);
+            if (null != chMessage) {
+                String roomId = chMessage.getRoomId();
+                List<ChRoomUser> chRoomUserList = chRoomUserService.findRoomUserByRoomId(roomId);
+                if (!chRoomUserList.isEmpty()) {
+                    for (int i = 0; i < chRoomUserList.size(); i++) {
+                        ChRoomUser chRoomUser = chRoomUserList.get(i);
+                        String uid = chRoomUser.getUserId();
+                        JSONObject rest = new JSONObject();
+                        rest.set("order", order);
+                        rest.set("tid", tid);
+                        String restMsg = rest.toString();
+                        log.info("【readMsg 回复 】{}", restMsg);
+                        amqpTemplate.convertAndSend(RabbitMqMqtt.MQTT_EXCHANGE, "order." + uid, restMsg);
+                    }
+                }
+            }
         }
     }
 

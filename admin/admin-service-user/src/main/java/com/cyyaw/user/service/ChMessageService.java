@@ -11,4 +11,6 @@ public interface ChMessageService extends BaseTableService<ChMessage, Integer> {
     List<ChMessage> unReadMsgList(String userId);
 
 
+    ChMessage readMsg(String tid);
+
 }

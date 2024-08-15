@@ -14,4 +14,6 @@ public interface ChMessageDao extends BaseDao<ChMessage, Integer> {
     List<ChMessage> findUnReadMsgByUserId(String userId);
 
 
+    @Query("select m from ChMessage m where m.tid = ?1 ")
+    ChMessage findByTid(String tid);
 }

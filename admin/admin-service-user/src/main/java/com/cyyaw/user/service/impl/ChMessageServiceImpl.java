@@ -31,5 +31,15 @@ public class ChMessageServiceImpl extends BaseService<ChMessage, Integer> implem
         // 查询房间内未读消息
         return chMessageDao.findUnReadMsgByUserId(userId);
     }
+
+    @Override
+    public ChMessage readMsg(String tid) {
+        ChMessage chMessage = chMessageDao.findByTid(tid);
+        if (null != chMessage) {
+            chMessage.setStatus(1);
+            chMessageDao.save(chMessage);
+        }
+        return chMessage;
+    }
 }
 
