@@ -12,6 +12,7 @@ import com.cyyaw.user.utils.entity.AdminAuthToken;
 import com.cyyaw.user.utils.entity.LoginRequest;
 import com.cyyaw.util.entity.EnterpriseRegisterRequest;
 import com.cyyaw.util.tools.BaseResult;
+import com.cyyaw.util.tools.WebException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -42,13 +43,13 @@ public class AdminLoginController {
     private TRoleService tRoleService;
 
 
-    @ApiOperation(value = "后台登录", notes = "后台登录")
+    @ApiOperation(value = "用户名密码登录", notes = "用户名密码登录")
     @PostMapping(value = "/login")
     public BaseResult login(@RequestBody LoginRequest loginRequest, @PathVariable String eCode) {
         String userName = loginRequest.getUserName();
         String password = loginRequest.getPassword();
         if (StrUtil.isBlank(userName) || StrUtil.isBlank(password)) {
-            return BaseResult.fail("参数错误...");
+            WebException.parameterFail();
         }
         AdminAuthToken authToken = loginService.loginEnterUserNameAndPassword(eCode, userName, password);
         TAdmin tAdmin = authToken.getTAdmin();

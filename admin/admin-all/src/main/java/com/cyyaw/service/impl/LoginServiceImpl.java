@@ -1,7 +1,7 @@
 package com.cyyaw.service.impl;
 
 import cn.hutool.json.JSONUtil;
-import com.cyyaw.config.exception.WebException;
+import com.cyyaw.util.tools.WebException;
 import com.cyyaw.enterprise.service.EApplicationService;
 import com.cyyaw.enterprise.table.dao.EEnterpriseDao;
 import com.cyyaw.enterprise.table.entity.EEnterprise;

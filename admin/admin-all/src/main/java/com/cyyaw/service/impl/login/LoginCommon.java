@@ -1,6 +1,6 @@
 package com.cyyaw.service.impl.login;
 
-import com.cyyaw.config.exception.WebException;
+import com.cyyaw.util.tools.WebException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 

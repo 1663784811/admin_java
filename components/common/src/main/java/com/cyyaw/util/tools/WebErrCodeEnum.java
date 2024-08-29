@@ -16,7 +16,7 @@ public enum WebErrCodeEnum {
     /**
      * 控制层
      */
-    WEB_ILLEGALSTATE(5000, "传参错误"),
+    WEB_ILLEGALSTATE(5000, "参数错误"),
 
     /**
      * 登录相关

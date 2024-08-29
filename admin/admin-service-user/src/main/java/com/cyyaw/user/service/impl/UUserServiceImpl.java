@@ -2,7 +2,7 @@ package com.cyyaw.user.service.impl;
 
 
 import cn.hutool.core.util.StrUtil;
-import com.cyyaw.config.exception.WebException;
+import com.cyyaw.util.tools.WebException;
 import com.cyyaw.jpa.BaseDao;
 import com.cyyaw.jpa.BaseService;
 import com.cyyaw.user.service.UUserService;

@@ -1,6 +1,6 @@
 package com.cyyaw.service.impl;
 
-import com.cyyaw.config.exception.WebException;
+import com.cyyaw.util.tools.WebException;
 import com.cyyaw.enterprise.table.dao.EStoreDao;
 import com.cyyaw.enterprise.table.entity.EStore;
 import com.cyyaw.service.OrderService;

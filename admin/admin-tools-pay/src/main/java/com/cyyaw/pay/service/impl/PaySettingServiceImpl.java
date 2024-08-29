@@ -1,6 +1,6 @@
 package com.cyyaw.pay.service.impl;
 
-import com.cyyaw.config.exception.WebException;
+import com.cyyaw.util.tools.WebException;
 import com.cyyaw.jpa.BaseDao;
 import com.cyyaw.jpa.BaseService;
 import com.cyyaw.pay.service.PaySettingService;

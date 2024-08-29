@@ -1,7 +1,6 @@
 package com.cyyaw.user.config;
 
 import cn.hutool.json.JSONObject;
-import com.cyyaw.config.exception.WebException;
 import com.cyyaw.user.utils.LoginInfo;
 import com.cyyaw.util.tools.JwtTokenUtils;
 import lombok.SneakyThrows;

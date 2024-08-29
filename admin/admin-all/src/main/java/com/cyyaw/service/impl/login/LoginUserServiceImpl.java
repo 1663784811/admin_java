@@ -2,7 +2,7 @@ package com.cyyaw.service.impl.login;
 
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
-import com.cyyaw.config.exception.WebException;
+import com.cyyaw.util.tools.WebException;
 import com.cyyaw.enterprise.service.EApplicationService;
 import com.cyyaw.enterprise.table.entity.EApplication;
 import com.cyyaw.service.LoginUserService;
@@ -18,7 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
-import java.util.List;
 
 @Service
 public class LoginUserServiceImpl implements LoginUserService {

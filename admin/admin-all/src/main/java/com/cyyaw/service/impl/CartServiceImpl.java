@@ -13,7 +13,7 @@ import com.cyyaw.store.table.goods.entity.GStoreGoodsSku;
 import com.cyyaw.util.entity.AddMyCar;
 import com.cyyaw.util.entity.CartListResponse;
 import com.cyyaw.util.tools.BaseResult;
-import com.cyyaw.util.tools.WhyException;
+import com.cyyaw.util.tools.WebException;
 import com.cyyaw.util.tools.WhyStringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
@@ -82,7 +82,7 @@ public class CartServiceImpl implements CartService {
     public BaseResult updateMyCar(String userId, AddMyCar addMyCar) {
         Integer number = addMyCar.getNumber();
         if (number == null || number.equals(0)) {
-            throw new WhyException("参数错误");
+            WebException.fail("参数错误");
         }
         // 第一步: 查询用户是否已经把该商品加入购物车了
         String skuId = addMyCar.getSkuId();
@@ -106,7 +106,7 @@ public class CartServiceImpl implements CartService {
             Integer nb = gCart.getNumber();
             gCart.setNumber(nb + number);
             if (gCart.getNumber() == 0) {
-                throw new WhyException("数量有误");
+                WebException.fail("数量有误");
             }
             gCart = gCartDao.save(gCart);
         }

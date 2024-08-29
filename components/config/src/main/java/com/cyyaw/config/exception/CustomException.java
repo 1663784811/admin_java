@@ -1,7 +1,7 @@
 package com.cyyaw.config.exception;
 
 import com.cyyaw.util.tools.WebErrCodeEnum;
-import com.cyyaw.util.tools.WhyException;
+import com.cyyaw.util.tools.WebException;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
@@ -30,16 +30,13 @@ public class CustomException implements HandlerExceptionResolver {
         } else if (ex instanceof AuthenticationException) {
             mav.addObject("code", WebErrCodeEnum.WEB_LOGINERR.getCode());
             mav.addObject("msg", WebErrCodeEnum.WEB_LOGINERR.getMsg());
-        } else if (ex instanceof WhyException) {
-            WhyException whyException = (WhyException) ex;
-            mav.addObject("code", whyException.getCode());
-            mav.addObject("msg", whyException.getMessage());
+        } else if (ex instanceof WebException) {
+            WebException webException = (WebException) ex;
+            mav.addObject("code", webException.getCode());
+            mav.addObject("msg", webException.getMessage());
         } else if (ex instanceof SQLException) {
             mav.addObject("code", 500);
             mav.addObject("msg", ex.getMessage());
-        } else if(ex instanceof WebException){
-            mav.addObject("code", 500);
-            mav.addObject("msg", ((WebException) ex).getMsg());
         } else {
             mav.addObject("code", 500);
             mav.addObject("msg", "系统异常");
