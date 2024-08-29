@@ -1,12 +1,10 @@
 package com.cyyaw.admin.controller;
 
-import cn.hutool.json.JSONObject;
 import com.cyyaw.user.config.TokenData;
 import com.cyyaw.user.service.TAdminService;
 import com.cyyaw.user.table.entity.TAdmin;
 import com.cyyaw.user.utils.LoginInfo;
 import com.cyyaw.util.tools.BaseResult;
-import com.cyyaw.util.tools.PageRespone;
 import com.cyyaw.util.tools.WhyStringUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -15,10 +13,12 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Date;
-import java.util.Map;
 
 @Slf4j
 @RestController
@@ -30,10 +30,9 @@ public class AdminController {
     private TAdminService tAdminService;
 
 
-
     @ApiOperation(value = "添加或修改", notes = "添加或修改")
     @PostMapping("/saveTAdmin")
-    public BaseResult saveTAdmin(@RequestBody TAdmin saveObj,  @TokenData LoginInfo loginInfo) {
+    public BaseResult saveTAdmin(@RequestBody TAdmin saveObj, @TokenData LoginInfo loginInfo) {
         TAdmin obj = null;
         Integer id = saveObj.getId();
         if (ObjectUtils.isEmpty(id)) {
