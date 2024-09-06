@@ -36,8 +36,6 @@ public class AppUserLoginController {
         String userName = loginRequest.getUserName();
         String password = loginRequest.getPassword();
         UserAuthToken authToken = loginUserService.loginUserNameAndPassword(appId, userName, password);
-        UUser uUser = authToken.getUUser();
-        uUser.setPassword(null);
         return BaseResult.ok(authToken, "登录成功");
     }
 
@@ -46,7 +44,6 @@ public class AppUserLoginController {
     @PostMapping(value = "/register")
     public BaseResult register(@RequestBody LoginRequest registerInfo, @PathVariable String appId) {
         UUser user = loginUserService.userRegister(appId, registerInfo);
-        user.setPassword(null);
         return BaseResult.ok(user, "注册成功");
     }
 
@@ -56,8 +53,6 @@ public class AppUserLoginController {
         String code = loginRequest.getCode();
         String phone = loginRequest.getPhone();
         UserAuthToken authToken = loginUserService.phoneLogin(appId, code, phone);
-        UUser uUser = authToken.getUUser();
-        uUser.setPassword(null);
         return BaseResult.ok(authToken, "登录成功");
     }
 

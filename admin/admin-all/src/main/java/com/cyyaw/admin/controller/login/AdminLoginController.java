@@ -39,7 +39,6 @@ public class AdminLoginController {
         }
         AdminAuthToken authToken = loginService.loginEnterUserNameAndPassword(eCode, userName, password);
         TAdmin tAdmin = authToken.getTAdmin();
-        tAdmin.setPassword(null);
         // 查权限
         List<TPower> tPowerList = tPowerService.findAdminPower(tAdmin.getTid());
         authToken.setAuthList(tPowerList);
@@ -50,7 +49,6 @@ public class AdminLoginController {
     @PostMapping(value = "/register")
     public BaseResult register(@RequestBody LoginRequest registerInfo, @PathVariable String eCode) {
         TAdmin tAdmin = loginService.adminRegister(registerInfo, eCode);
-        tAdmin.setPassword(null);
         return BaseResult.ok(tAdmin, "注册成功");
     }
 

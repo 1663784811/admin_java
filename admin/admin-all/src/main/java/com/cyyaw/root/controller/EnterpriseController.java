@@ -49,7 +49,6 @@ public class EnterpriseController {
         // 第二步：保存负责人信息
         String eCode = e.getCode();
         TAdmin admin = loginService.adminRegister(loginRequest, eCode);
-//        admin.setPassword(null);
         // 第三步:分配权限
         tRoleService.initRole(eCode, admin.getTid());
         Map<String, Object> msg = new HashMap<>();

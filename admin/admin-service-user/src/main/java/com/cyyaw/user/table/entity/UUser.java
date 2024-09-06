@@ -3,6 +3,7 @@ package com.cyyaw.user.table.entity;
 
 import com.cyyaw.jpa.util.entity.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -48,6 +49,7 @@ public class UUser implements BaseEntity<Integer>,  Serializable {
     @Column(name = "account", columnDefinition = "varchar(32) COMMENT '账号'")
     private String account;
     @Basic
+    @JsonIgnore
     @Column(name = "password", columnDefinition = "varchar(32) COMMENT '密码'")
     private String password;
     @Basic
