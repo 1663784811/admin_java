@@ -11,9 +11,4 @@ public interface EEnterpriseService extends BaseTableService<EEnterprise, Intege
     EEnterprise registerEnterprise(EEnterprise enterprise);
 
 
-
-    EEnterprise findByCode(String code);
-
-
-
 }

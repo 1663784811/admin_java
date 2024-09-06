@@ -84,19 +84,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/wx/user/**/login",
                         "/login/**",
                         "/activiti/**",
+                        // ==============================================================   root
+                        "/root/enterprise/register",
+
                         // ==============================================================   admin
-                        "/admin/enterprise/findPage",
                         "/admin/file/**",
                         "/admin/*/common/query",
                         "/admin/*/login/**",
-                        "/admin/phone/phone/**",
-                        "/admin/**",
 
                         // ============================================================== appAdmin
                         "/appAdmin/*/login/**",
                         "/appAdmin/*/store/*/login",
                         "/appAdmin/*/common/query",
-
 
                         // ============================================================== app
                         "/app/*/common/**",
@@ -106,12 +105,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/app/*/shopping/**",  //   商城
                         "/app/*/order/countGoodsPrice",
 
-
                         // ============================================================== 页面
                         "/enterprise/**",
                         "/rabbitmq/**"
-
-
 
                 ).permitAll()
                 // 每一个请求都要验证

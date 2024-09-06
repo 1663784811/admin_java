@@ -2,6 +2,7 @@ package com.cyyaw.user.table.entity;
 
 import com.cyyaw.jpa.util.entity.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -69,6 +70,7 @@ public class TAdmin implements BaseEntity<Integer>, Serializable {
     private String nickName;
     @Basic
     @Column(name = "password", columnDefinition = "varchar(255) COMMENT '密码'")
+    @JsonIgnore
     private String password;
     @Basic
     @Column(name = "phone", columnDefinition = "varchar(15) COMMENT '手机号'")

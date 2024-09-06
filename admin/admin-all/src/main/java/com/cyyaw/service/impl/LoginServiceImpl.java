@@ -72,16 +72,14 @@ public class LoginServiceImpl implements LoginService {
     public AdminAuthToken loginEnterUserNameAndPassword(String eCode, String userName, String password) {
         // 第一步: 查用户
         TAdmin tAdmin = tAdminDao.findByAccount(eCode, userName);
-        if (ObjectUtils.isEmpty(tAdmin)) {
-            WebException.fail(WebErrCodeEnum.WEB_LOGINERR, "账号或密码错误");
-        }
+        if (ObjectUtils.isEmpty(tAdmin)) WebException.fail(WebErrCodeEnum.WEB_LOGINERR, "账号或密码错误");
         String account = tAdmin.getAccount();
         String tid = tAdmin.getTid();
         String passworded = tAdmin.getPassword();
         // 第二步: 对比密码
-//        if (!BCryptUtil.matches(password, passworded)) {
-//            WebException.fail(WebErrCodeEnum.WEB_LOGINERR, "账号或密码错误");
-//        }
+        if (!BCryptUtil.matches(password, passworded)) {
+            WebException.fail(WebErrCodeEnum.WEB_LOGINERR, "账号或密码错误");
+        }
         // 第三步: 查角色
         List<TRole> roleList = tRoleDao.findByAdminId(tid);
         StringBuffer sb = new StringBuffer();
@@ -278,14 +276,14 @@ public class LoginServiceImpl implements LoginService {
         // 判断企业
         EEnterprise eEnterprise = eEnterpriseDao.findByEnterpriseByCode(eCode);
         if (eEnterprise == null) {
-            WebException.fail(WebErrCodeEnum.WEB_REGISTER_ERR, "账号或密码错误");
+            WebException.fail(WebErrCodeEnum.WEB_REGISTER_ERR, "企业不存在");
         }
         // 判断用户是否存在
         String userName = registerInfo.getUserName();
         String password = registerInfo.getPassword();
         TAdmin tAdmin = tAdminDao.findByAccount(eCode, userName);
         if (!ObjectUtils.isEmpty(tAdmin)) {
-            WebException.fail(WebErrCodeEnum.WEB_REGISTER_ERR, "账号或密码错误");
+            WebException.fail(WebErrCodeEnum.WEB_REGISTER_ERR, "账号已存在");
         }
         // 添加用户
         String encode = BCryptUtil.encode(password);
@@ -293,7 +291,7 @@ public class LoginServiceImpl implements LoginService {
         t.setTid(WhyStringUtil.getUUID());
         t.setAccount(userName);
         t.setPassword(encode);
-        t.setEnterpriseCode(eEnterprise.getTid());
+        t.setEnterpriseCode(eEnterprise.getCode());
         TAdmin save = tAdminService.save(t);
         return save;
     }

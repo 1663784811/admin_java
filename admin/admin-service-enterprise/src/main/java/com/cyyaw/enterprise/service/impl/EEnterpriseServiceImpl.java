@@ -54,9 +54,6 @@ public class EEnterpriseServiceImpl extends BaseService<EEnterprise, Integer> im
         return eEnterprise;
     }
 
-    @Override
-    public EEnterprise findByCode(String code) {
-        return eEnterpriseDao.findByEnterpriseByCode(code);
-    }
+
 }
 
